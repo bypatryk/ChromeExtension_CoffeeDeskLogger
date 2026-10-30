@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Coffeedesk.pl Logger</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header class="top">
+    <div class="search-row">
+      <input id="search" type="search" placeholder="Search coffees" aria-label="Search coffees">
+      <label class="sort">
+        <span class="sort-label">Order by</span>
+        <select id="sort" aria-label="Order by">
+          <option value="bought">Bought</option>
+          <option value="rated">Rated</option>
+          <option value="per100">Price / 100 g</option>
+          <option value="price">Price</option>
+        </select>
+      </label>
+    </div>
+    <div class="filterbar">
+      <nav class="filters" role="tablist" aria-label="Filter by rating">
+        <button type="button" role="tab" data-filter="unrated" aria-selected="true">Unrated <span class="n"></span></button>
+        <button type="button" role="tab" data-filter="like" aria-selected="false">Liked <span class="n"></span></button>
+        <button type="button" role="tab" data-filter="dislike" aria-selected="false">Disliked <span class="n"></span></button>
+      </nav>
+      <div class="type-filter">
+        <button type="button" id="typeToggle" aria-haspopup="true" aria-expanded="false" aria-controls="typeMenu">
+          <span id="typeLabel">All types</span> <span class="caret" aria-hidden="true">▾</span>
+        </button>
+        <div id="typeMenu" class="type-menu" role="group" aria-label="Filter by type" hidden></div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <ul id="list" class="list"></ul>
+    <div id="empty" class="empty" hidden>
+      <p class="empty-title"></p>
+      <p class="empty-hint">Open any coffee on coffeedesk.pl and use the panel in the bottom-right corner to log it as bought, rate it and mark it as decaf or other.</p>
+    </div>
+  </main>
+
+  <footer class="bottom">
+    <span id="status" aria-live="polite"></span>
+    <span class="io">
+      <button id="syncNow" type="button">Sync now</button>
+      <button id="export" type="button">Export</button>
+      <button id="import" type="button">Import</button>
+      <input id="importFile" type="file" accept="application/json,.json" hidden>
+    </span>
+  </footer>
+
+  <script src="storage.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

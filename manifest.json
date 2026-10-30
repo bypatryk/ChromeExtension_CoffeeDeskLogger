@@ -1,0 +1,46 @@
+{
+  "manifest_version": 3,
+  "name": "Coffeedesk.pl Logger",
+  "version": "1.0.0",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkWj0x/F0Tg2mII5J/tuRSWqZHeyeWy7q6ApQDvIGT8hkBDDLbJ1+6hsqOPZPqbiJq1S4mjSFEAJ4c93G+fFl+aypleTy1gm8TAoWGLqTMc2AcMms1FyaYlOfok9ep1/OXdSZrKSISfnzvyIHV2gF23ZNjnw8LfXo2uY7yROSV+/d05at8YJduPLEFYe5AgGLvU2Dosr9ssoQ9MTm3sn806TslBxp15ePW7uajDQ8cBu/IpPa7T3wkVMjq6qF/HufzzIzYzlN+SCPfUnEfn8pWpLUDjNRENylE5930L4VUjdmjD/cfG7GqnaL7M/JO8fRExbt/6cF+FudjX7IcJugfwIDAQAB",
+  "description": "Mark coffees you bought on coffeedesk.pl, rate them, add notes, and see your verdicts while you browse.",
+  "permissions": [
+    "storage",
+    "alarms"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Coffeedesk.pl Logger",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://www.coffeedesk.pl/*",
+        "*://coffeedesk.pl/*"
+      ],
+      "js": [
+        "storage.js",
+        "content.js"
+      ],
+      "css": [
+        "content.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}

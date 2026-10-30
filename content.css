@@ -1,0 +1,45 @@
+/* Badges and card treatments injected into coffeedesk.pl listings. */
+.cdl-badge {
+  position: absolute !important;
+  left: 8px !important;
+  bottom: 8px !important;
+  z-index: 6 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  margin: 0 !important;
+  padding: 4px 10px 4px 8px !important;
+  border-radius: 999px !important;
+  font: 600 12px/1.2 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif !important;
+  letter-spacing: 0.01em !important;
+  text-transform: none !important;
+  color: #fff !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+  white-space: nowrap !important;
+  cursor: help;
+}
+.cdl-badge svg {
+  display: block !important;
+  width: 12px !important;
+  height: 12px !important;
+  fill: none !important;
+  stroke: currentColor !important;
+}
+.cdl-badge--like    { background: #2F7D5B !important; }
+.cdl-badge--dislike { background: #A33A33 !important; }
+.cdl-badge--bought  { background: #6B4F2A !important; }
+
+.cdl-card--like    { outline: 2px solid #2F7D5B !important; outline-offset: -2px; border-radius: 8px; }
+.cdl-card--dislike { outline: 2px solid #A33A33 !important; outline-offset: -2px; border-radius: 8px; }
+.cdl-card--bought  { outline: 2px dashed #6B4F2A !important; outline-offset: -2px; border-radius: 8px; }
+
+/* Coffees you didn't like fade back so the ones worth buying stand out. */
+.cdl-card--dislike img {
+  filter: grayscale(0.75);
+  opacity: 0.55;
+  transition: opacity 0.2s, filter 0.2s;
+}
+.cdl-card--dislike:hover img {
+  filter: none;
+  opacity: 1;
+}
