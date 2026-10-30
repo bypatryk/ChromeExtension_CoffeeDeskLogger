@@ -440,7 +440,7 @@
   }
 
   function clearDecorations() {
-    document.querySelectorAll('.cdl-badge').forEach((b) => b.remove());
+    document.querySelectorAll('.cdl-badge').forEach((b) => { placementObserver.unobserve(b); b.remove(); });
     document.querySelectorAll('[data-cdl-status]').forEach((el) => {
       el.classList.remove(...STATUS_CLASSES);
       delete el.dataset.cdlStatus;
@@ -453,24 +453,75 @@
   }
 
   function applyBadge(card, item, status) {
-    card.querySelectorAll('.cdl-badge').forEach((b) => b.remove());
+    card.querySelectorAll('.cdl-badge').forEach((b) => { placementObserver.unobserve(b); b.remove(); });
     card.classList.remove(...STATUS_CLASSES);
     card.classList.add('cdl-card', `cdl-card--${status}`);
     card.dataset.cdlStatus = status;
     card.dataset.cdlId = item.id;
 
-    const host = badgeHost(card);
-    if (getComputedStyle(host).position === 'static') {
-      host.style.position = 'relative';
-      host.dataset.cdlPos = '1';
-    }
     const b = document.createElement('span');
     b.className = `cdl-badge cdl-badge--${status}`;
     const kind = S.kindOf(item);
     b.innerHTML = `${GLYPHS[status]} ${LABELS[status]}` + (kind === 'coffee' ? '' : ` · ${S.KINDS[kind]}`);
     b.title = item.comment ? item.comment : 'In your coffee log';
-    host.appendChild(b);
+    placeBadge(b, badgeHost(card), card);
   }
+
+  function makePositioned(el) {
+    if (getComputedStyle(el).position === 'static') {
+      el.style.position = 'relative';
+      el.dataset.cdlPos = '1';
+    }
+  }
+  function unposition(el) {
+    if (el.dataset.cdlPos) { el.style.position = ''; delete el.dataset.cdlPos; }
+  }
+
+  // The first element between the badge and the card that has overflow clipping and cuts
+  // the badge off. Boxes with no size yet (image still loading) are ignored.
+  function clippingAncestor(badge, card) {
+    const r = badge.getBoundingClientRect();
+    for (let el = badge.parentElement; el && el !== card; el = el.parentElement) {
+      const cs = getComputedStyle(el);
+      if (cs.overflowX === 'visible' && cs.overflowY === 'visible') continue;
+      const c = el.getBoundingClientRect();
+      if (!c.width || !c.height) continue;
+      if (r.left < c.left - 1 || r.right > c.right + 1 || r.top < c.top - 1 || r.bottom > c.bottom + 1) return el;
+    }
+    return null;
+  }
+
+  // Puts the badge on the image, or, when the image sits in a small clipping box (like the
+  // 100px thumbnails in order history), on the nearest container above it that shows it whole.
+  function placeBadge(badge, host, card) {
+    makePositioned(host);
+    host.appendChild(badge);
+    badge.cdlCard = card;
+    fixClipping(badge);
+    // A badge added while its section is hidden (order history loads items into a collapsed
+    // panel) has no size yet, so check again once it's shown, and once images load.
+    placementObserver.observe(badge);
+    card.querySelectorAll('img').forEach((img) => {
+      if (!img.complete) img.addEventListener('load', () => fixClipping(badge), { once: true });
+    });
+  }
+
+  function fixClipping(badge) {
+    const card = badge.cdlCard;
+    if (!card || !badge.isConnected || !badge.getBoundingClientRect().width) return;
+    for (let i = 0; i < 10; i++) {
+      const clip = clippingAncestor(badge, card);
+      if (!clip) return;
+      unposition(badge.parentElement);
+      const host = clip.parentElement && card.contains(clip.parentElement) ? clip.parentElement : card;
+      makePositioned(host);
+      host.appendChild(badge);
+    }
+  }
+
+  const placementObserver = new ResizeObserver((entries) => {
+    for (const e of entries) if (e.contentRect.width) fixClipping(e.target);
+  });
 
   function decorate() {
     const seen = new Set();
@@ -487,6 +538,7 @@
       const existing = card.querySelector('.cdl-badge');
       if (card.dataset.cdlStatus === status && card.dataset.cdlId === item.id && existing) {
         existing.title = item.comment || 'In your coffee log';
+        fixClipping(existing);
         continue;
       }
       applyBadge(card, item, status);

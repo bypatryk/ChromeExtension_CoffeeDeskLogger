@@ -10,7 +10,12 @@
   margin: 0 !important;
   padding: 4px 10px 4px 8px !important;
   border-radius: 999px !important;
-  font: 600 12px/1.2 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif !important;
+  font:
+    600 12px/1.2 system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    sans-serif !important;
   letter-spacing: 0.01em !important;
   text-transform: none !important;
   color: #fff !important;
@@ -25,22 +30,50 @@
   fill: none !important;
   stroke: currentColor !important;
 }
-.cdl-badge--love    { background: #B8336A !important; }
-.cdl-badge--love svg { fill: currentColor !important; }
-.cdl-badge--like    { background: #2F7D5B !important; }
-.cdl-badge--dislike { background: #A33A33 !important; }
-.cdl-badge--bought  { background: #6B4F2A !important; }
+.cdl-badge--love {
+  background: #b8336a !important;
+}
+.cdl-badge--love svg {
+  fill: currentColor !important;
+}
+.cdl-badge--like {
+  background: #2f7d5b !important;
+}
+.cdl-badge--dislike {
+  background: #a33a33 !important;
+}
+.cdl-badge--bought {
+  background: #6b4f2a !important;
+}
 
-.cdl-card--love    { outline: 2px solid #B8336A !important; outline-offset: -2px; border-radius: 8px; }
-.cdl-card--like    { outline: 2px solid #2F7D5B !important; outline-offset: -2px; border-radius: 8px; }
-.cdl-card--dislike { outline: 2px solid #A33A33 !important; outline-offset: -2px; border-radius: 8px; }
-.cdl-card--bought  { outline: 2px dashed #6B4F2A !important; outline-offset: -2px; border-radius: 8px; }
+.order-detail-list-wrapper.cdl-card {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+.cdl-card--love {
+  border: 2px solid #b8336a !important;
+  border-radius: 8px;
+}
+.cdl-card--like {
+  border: 2px solid #2f7d5b !important;
+  border-radius: 8px;
+}
+.cdl-card--dislike {
+  border: 2px solid #a33a33 !important;
+  border-radius: 8px;
+}
+.cdl-card--bought {
+  border: 2px dashed #6b4f2a !important;
+  border-radius: 8px;
+}
 
 /* Coffees you didn't like fade back so the ones worth buying stand out. */
 .cdl-card--dislike img {
   filter: grayscale(0.75);
   opacity: 0.55;
-  transition: opacity 0.2s, filter 0.2s;
+  transition:
+    opacity 0.2s,
+    filter 0.2s;
 }
 .cdl-card--dislike:hover img {
   filter: none;
