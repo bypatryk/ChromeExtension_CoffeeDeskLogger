@@ -3,15 +3,17 @@
   if (!S || window.__coffeeLogLoaded) return;
   window.__coffeeLogLoaded = true;
 
-  const LABELS = { like: 'Liked', dislike: 'Disliked', bought: 'Bought' };
+  const LABELS = { love: 'Loved', like: 'Liked', dislike: 'Disliked', bought: 'Bought' };
   const THUMB_SVG = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 10v12"/><path d="M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z"/></svg>';
   // Status icons as HTML: thumbs for ratings, a check for plain bought.
+  const HEART_SVG = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>';
   const GLYPHS = {
+    love: HEART_SVG,
     like: THUMB_SVG,
     dislike: THUMB_SVG.replace('<svg ', '<svg style="transform:rotate(180deg)" '),
     bought: '✓'
   };
-  const STATUS_CLASSES = ['cdl-card', 'cdl-card--like', 'cdl-card--dislike', 'cdl-card--bought'];
+  const STATUS_CLASSES = ['cdl-card', 'cdl-card--love', 'cdl-card--like', 'cdl-card--dislike', 'cdl-card--bought'];
 
   let items = {};
   let aliasMap = new Map();
@@ -158,7 +160,7 @@
     * { box-sizing: border-box; }
     .panel {
       --paper: #F5F6F3; --surface: #FFFFFF; --ink: #1E2629; --muted: #66706F; --line: #DCE0DB;
-      --bean: #6B4F2A; --like: #2F7D5B; --dislike: #A33A33;
+      --bean: #6B4F2A; --love: #B8336A; --like: #2F7D5B; --dislike: #A33A33;
       font: 13px/1.4 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
       color: var(--ink);
       display: flex; flex-direction: column; align-items: flex-end; gap: 8px;
@@ -166,7 +168,7 @@
     @media (prefers-color-scheme: dark) {
       .panel {
         --paper: #171B1C; --surface: #1F2426; --ink: #E8EBE7; --muted: #9AA3A1; --line: #333B3D;
-        --bean: #C79A5B; --like: #5DBB8F; --dislike: #E0736A;
+        --bean: #C79A5B; --love: #F07AA6; --like: #5DBB8F; --dislike: #E0736A;
       }
     }
     button { font: inherit; cursor: pointer; }
@@ -180,6 +182,7 @@
       box-shadow: 0 6px 20px rgba(20, 25, 27, .16);
     }
     .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--line); flex: none; }
+    .panel[data-status="love"] .dot { background: var(--love); }
     .panel[data-status="like"] .dot { background: var(--like); }
     .panel[data-status="dislike"] .dot { background: var(--dislike); }
     .panel[data-status="bought"] .dot { background: var(--bean); }
@@ -214,11 +217,15 @@
     .seg.kind { flex: 1; }
     .seg button {
       flex: 1; display: inline-flex; align-items: center; justify-content: center;
-      padding: 6px 10px; border: 0; background: var(--paper); color: var(--muted); font-size: 12px; font-weight: 600;
+      padding: 6px 7px; border: 0; background: var(--paper); color: var(--muted); font-size: 12px; font-weight: 600;
     }
+    .seg.rate button { padding: 6px 9px; }
     .seg button + button { border-left: 1px solid var(--line); }
     .seg button:hover { color: var(--ink); }
     .seg button[aria-pressed="true"] { background: var(--ink); color: var(--surface); }
+    .seg .love[aria-pressed="true"] { background: var(--love); color: #fff; }
+    .seg .love[aria-pressed="true"] svg { fill: currentColor; }
+    .panel[data-status="love"] .tab-label svg { fill: var(--love); color: var(--love); }
     .seg .like[aria-pressed="true"] { background: var(--like); color: #fff; }
     .seg .dislike[aria-pressed="true"] { background: var(--dislike); color: #fff; }
     .seg svg { display: block; }
@@ -269,6 +276,7 @@
           <button type="button" class="add">✓ Log as bought</button>
           <div class="controls">
             <div class="seg rate" role="group" aria-label="Rating">
+              <button type="button" class="love" aria-pressed="false" title="Loved" aria-label="Loved">${HEART_SVG}</button>
               <button type="button" class="like" aria-pressed="false" title="Liked" aria-label="Liked">${THUMB_SVG}</button>
               <button type="button" class="dislike" aria-pressed="false" title="Disliked" aria-label="Disliked">${THUMB_SVG}</button>
             </div>
@@ -293,7 +301,7 @@
       panel: $('.panel'), tab: $('.tab'), tabLabel: $('.tab-label'), close: $('.close'),
       name: $('.name'), brand: $('.brand'), add: $('.add'),
       kinds: root.querySelectorAll('.kind button'),
-      like: $('.like'), dislike: $('.dislike'), note: $('textarea'),
+      love: $('.love'), like: $('.like'), dislike: $('.dislike'), note: $('textarea'),
       saved: $('.saved'), remove: $('.remove'),
       boughtDate: $('.bought-date'), ratedDate: $('.rated-date'), ratedWrap: $('.rated-wrap')
     };
@@ -340,6 +348,9 @@
     });
 
     for (const b of el.kinds) b.addEventListener('click', () => save({ kind: b.dataset.kind }));
+    el.love.addEventListener('click', () => {
+      save({ rating: currentItem()?.rating === 'love' ? null : 'love' });
+    });
     el.like.addEventListener('click', () => {
       save({ rating: currentItem()?.rating === 'like' ? null : 'like' });
     });
@@ -376,6 +387,7 @@
       el.add.hidden = !!it;
       const kind = it ? S.kindOf(it) : (pageProduct.kind || 'coffee');
       for (const b of el.kinds) b.setAttribute('aria-pressed', String(b.dataset.kind === kind));
+      el.love.setAttribute('aria-pressed', String(it?.rating === 'love'));
       el.like.setAttribute('aria-pressed', String(it?.rating === 'like'));
       el.dislike.setAttribute('aria-pressed', String(it?.rating === 'dislike'));
       if (root.activeElement !== el.note) el.note.value = it?.comment || '';

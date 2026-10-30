@@ -26,6 +26,7 @@
 
   // Every coffee in the log counts as bought; a rating refines that.
   function statusOf(item) {
+    if (item.rating === 'love') return 'love';
     if (item.rating === 'like') return 'like';
     if (item.rating === 'dislike') return 'dislike';
     return 'bought';

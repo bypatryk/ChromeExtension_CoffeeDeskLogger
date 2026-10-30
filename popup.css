@@ -5,6 +5,7 @@
   --muted: #66706F;
   --line: #DCE0DB;
   --bean: #6B4F2A;
+  --love: #B8336A;
   --like: #2F7D5B;
   --dislike: #A33A33;
   --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
@@ -19,6 +20,7 @@
     --muted: #9AA3A1;
     --line: #333B3D;
     --bean: #C79A5B;
+    --love: #F07AA6;
     --like: #5DBB8F;
     --dislike: #E0736A;
     color-scheme: dark;
@@ -81,10 +83,11 @@ button { font: inherit; color: inherit; cursor: pointer; }
 }
 
 .filterbar { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.filters { display: flex; gap: 2px; margin: 0 -4px; }
+/* Tabs keep their full width; the type dropdown label shortens ("Coffee, De…") if space runs out. */
+.filters { display: flex; flex: none; gap: 0; margin: 0 -5px; }
 .filters button {
   flex: none;
-  padding: 8px 8px 10px;
+  padding: 8px 5px 10px;
   border: 0;
   border-bottom: 2px solid transparent;
   background: none;
@@ -96,12 +99,12 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .n { font-weight: 400; color: var(--muted); font-variant-numeric: tabular-nums; }
 
 /* Type dropdown */
-.type-filter { position: relative; margin-bottom: 4px; }
+.type-filter { position: relative; min-width: 0; margin-bottom: 4px; }
 #typeToggle {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  max-width: 150px;
+  max-width: 100%;
   padding: 3px 10px;
   border: 1px solid var(--line);
   border-radius: 999px;
@@ -154,6 +157,7 @@ main { flex: 1; overflow-y: auto; min-height: 120px; display: flex; flex-directi
   border-left: 3px solid transparent;
   border-bottom: 1px solid var(--line);
 }
+.row[data-status="love"]    { border-left-color: var(--love); }
 .row[data-status="like"]    { border-left-color: var(--like); }
 .row[data-status="dislike"] { border-left-color: var(--dislike); }
 .row[data-status="bought"]  { border-left-color: var(--bean); }
@@ -244,6 +248,8 @@ main { flex: 1; overflow-y: auto; min-height: 120px; display: flex; flex-directi
 .seg button + button { border-left: 1px solid var(--line); }
 .seg button:hover { color: var(--ink); }
 .seg button[aria-pressed="true"] { background: var(--ink); color: var(--surface); }
+.seg button.love[aria-pressed="true"]    { background: var(--love); color: #fff; }
+.seg button.love[aria-pressed="true"] svg { fill: currentColor; }
 .seg button.like[aria-pressed="true"]    { background: var(--like); color: #fff; }
 .seg button.dislike[aria-pressed="true"] { background: var(--dislike); color: #fff; }
 

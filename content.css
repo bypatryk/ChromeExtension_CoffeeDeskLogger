@@ -25,10 +25,13 @@
   fill: none !important;
   stroke: currentColor !important;
 }
+.cdl-badge--love    { background: #B8336A !important; }
+.cdl-badge--love svg { fill: currentColor !important; }
 .cdl-badge--like    { background: #2F7D5B !important; }
 .cdl-badge--dislike { background: #A33A33 !important; }
 .cdl-badge--bought  { background: #6B4F2A !important; }
 
+.cdl-card--love    { outline: 2px solid #B8336A !important; outline-offset: -2px; border-radius: 8px; }
 .cdl-card--like    { outline: 2px solid #2F7D5B !important; outline-offset: -2px; border-radius: 8px; }
 .cdl-card--dislike { outline: 2px solid #A33A33 !important; outline-offset: -2px; border-radius: 8px; }
 .cdl-card--bought  { outline: 2px dashed #6B4F2A !important; outline-offset: -2px; border-radius: 8px; }

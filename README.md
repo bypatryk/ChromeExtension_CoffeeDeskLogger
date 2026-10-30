@@ -2,7 +2,7 @@
 
 A personal Chrome extension for remembering the coffees you've bought on [coffeedesk.pl](https://www.coffeedesk.pl) and what you thought of them.
 
-Mark a coffee as bought, give it a thumbs up or down, note how you brewed it, and the extension shows that verdict wherever the coffee appears on the site: on its product page and as a badge in listings and search results. The toolbar popup keeps the whole log in one place, with the price per 100 g of each bag so you can compare value and decide what to buy again. The log is backed up to your Chrome account automatically.
+Mark a coffee as bought, rate it (loved, liked or disliked), note how you brewed it, and the extension shows that verdict wherever the coffee appears on the site: on its product page and as a badge in listings and search results. The toolbar popup keeps the whole log in one place, with the price per 100 g of each bag so you can compare value and decide what to buy again. The log is backed up to your Chrome account automatically.
 
 ## Install
 1. Open `chrome://extensions` and switch on **Developer mode** (top right).
@@ -18,7 +18,7 @@ A pill in the bottom-right corner shows the coffee's status; click it to open th
 
 - **Log as bought** adds the coffee to your log. Rating it, choosing a type or writing a note also adds it: everything in the log counts as bought.
 - **Bought** date: today by default, used when you log the coffee; you can change it later.
-- **Thumbs up / down** rates it (click again to clear). A **Rated** date (today by default) appears once it's rated.
+- **Heart / thumbs up / thumbs down** rates it Loved, Liked or Disliked (click again to clear). A **Rated** date (today by default) appears once it's rated.
 - **Coffee / Decaf / Other** sets the type. It's detected when you first log a product: "Zawartość kofeiny: Bezkofeinowa" → Decaf, any "Typ produktu" other than Kawa (brewers, filters, machines) → Other.
 - **Notes** for brew method, grind, tasting notes.
 - **Remove from log** (click twice).
@@ -26,10 +26,10 @@ A pill in the bottom-right corner shows the coffee's status; click it to open th
 Everything saves as you go. Opening the page of a logged coffee also refreshes its price and weight.
 
 ### While browsing
-Coffees in your log get a badge on their image in categories, search results and related products: green thumbs up for liked, red thumbs down for disliked (the image is also faded), brown ✓ for bought but not rated yet, with "Decaf" or "Other" added when it applies. Hover a badge to read your note.
+Coffees in your log get a badge on their image in categories, search results and related products: green thumbs up for liked, rose heart for loved, red thumbs down for disliked (the image is also faded), brown ✓ for bought but not rated yet, with "Decaf" or "Other" added when it applies. Hover a badge to read your note.
 
 ### Toolbar popup
-- **Tabs:** Unrated, Liked, Disliked. It opens on Unrated, or on Liked when everything is rated.
+- **Tabs:** Unrated, Loved, Liked, Disliked. Liked includes loved coffees; Loved shows only those. It opens on Unrated, or on Liked when everything is rated.
 - **Type dropdown:** toggle Coffee, Decaf and Other. Other is off by default.
 - **Search** matches name, roaster, notes and type.
 - **Order by:** Bought (newest first, default), Rated (most recently rated first), Price / 100 g or Price (cheapest first).
